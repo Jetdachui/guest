@@ -1,0 +1,30 @@
+*** Settings ***
+Library           RequestsLibrary
+Library           Collections
+
+*** Keywords ***
+get
+    [Arguments]    ${Alias}    ${url}    ${uri}    &{keyword}
+    log    ---发送Get请求---
+    ${payload}=    Create Dictionary    &{keyword}
+    Create Session    ${Alias}    ${url}
+    ${resp}=    Get Request    ${Alias}    ${uri}    params=${payload}
+    Should Be Equal As Strings    ${resp.status_code}    200
+    Return From Keyword    ${resp}
+    [Return]    ${resp}
+
+post
+    [Arguments]    ${Alias}    ${url}    ${uri}    &{keyword}
+    log    ---发送Post请求---
+    &{data}=    Create Dictionary    &{keyword}
+    &{headers}    Create Dictionary    Content-Type=application/x-www-form-urlencoded;
+    Create Session    ${Alias}    ${url}
+    ${resp}=    Post Request    ${Alias}    ${uri}    data=&{data}    headers=&{headers}
+    Should Be Equal As Strings    ${resp.status_code}    200
+    [Return]    ${resp}
+
+返回体
+    [Arguments]    ${resp}
+    log    ---获取响应体---
+    ${content}=    To Json    ${resp.content}
+    [Return]    ${content}

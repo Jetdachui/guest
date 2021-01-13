@@ -1,0 +1,13 @@
+*** Settings ***
+Documentation     should contain
+...
+...               Dictionary Should Contain Value
+Library           Collections
+
+*** Keywords ***
+contain
+    [Arguments]    ${content}    ${expect}
+    log    ---断言开始---
+    log    ${content}
+    Dictionary Should Contain Value    ${content}    ${expect}
+    log    ---断言成功---

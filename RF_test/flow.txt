@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          common.txt
+Resource          assert.txt
+
+*** Keywords ***
+get请求
+    [Arguments]    ${expect}    ${Alias}    ${url}    ${uil}    &{keyword}
+    ${resp}    get    ${Alias}    ${url}    ${uil}    &{keyword}
+    log    ${resp}
+    ${content}    返回体    ${resp}
+    contain    ${content}    ${expect}
+    log    ---${Alias}测试完成---
+
+post请求
+    [Arguments]    ${expect}    ${Alias}    ${url}    ${uil}    &{keyword}
+    ${resp}    post    ${Alias}    ${url}    ${uil}    &{keyword}
+    log    ${resp}
+    ${content}    返回体    ${resp}
+    contain    ${content}    ${expect}
+    log    ---${Alias}测试完成---
